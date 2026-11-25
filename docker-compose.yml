@@ -1,6 +1,9 @@
+name: cine-divas
+
 services:
   cine-divas:
     build: .
+    image: cine-divas
     container_name: cine-divas
     ports:
       - "5000:5000"
