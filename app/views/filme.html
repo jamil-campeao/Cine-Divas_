@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}{{ filme.titulo }} ♡ Cine Divas{% endblock %}
+
+{% block content %}
+<section class="pagina-conta">
+    <div class="janela janela-larga">
+        <div class="janela-barra">
+            <span>filme_{{ "%02d"|format(filme.id) }}.avi</span>
+            <span class="janela-botoes" aria-hidden="true">_ □ ×</span>
+        </div>
+
+        <div class="janela-corpo detalhe">
+            <div class="poster-moldura poster-detalhe">
+                {% include "_poster.html" %}
+                <span class="poster-numero">nº {{ "%02d"|format(filme.id) }}</span>
+                <span class="poster-sticker" aria-hidden="true">{{ filme.emoji }}</span>
+            </div>
+
+            <div class="detalhe-texto">
+                <span class="mood">{{ filme.mood }}</span>
+                <h1 class="titulo-cromado">{{ filme.titulo }}</h1>
+                <p class="ano">★ {{ filme.ano }} ★ romance ★</p>
+                <p class="sinopse">{{ filme.sinopse }}</p>
+                <div class="acoes">
+                    <a class="botao-gel" href="{{ url_for('filmes.lista') }}">← voltar</a>
+                    <a class="botao-cromado" href="{{ url_for('filmes.editar', id=filme.id) }}">editar ✎</a>
+                    <form method="POST" action="{{ url_for('filmes.excluir', id=filme.id) }}"
+                          onsubmit="return confirm('Excluir esse filme, diva?');">
+                        <button type="submit" class="botao-cromado">excluir 🗑</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="janela janela-larga">
+        <div class="janela-barra">
+            <span>avaliacoes.txt</span>
+            <span class="janela-botoes" aria-hidden="true">_ □ ×</span>
+        </div>
+
+        <div class="janela-corpo">
+            <form method="POST" action="{{ url_for('avaliacoes.nova', filme_id=filme.id) }}" class="formulario">
+                <label for="nota">sua nota</label>
+                <select id="nota" name="nota" required>
+                    {% for n in range(5, 0, -1) %}
+                        <option value="{{ n }}">{{ "★" * n }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="comentario">comentário <small>(opcional)</small></label>
+                <textarea id="comentario" name="comentario" rows="3" maxlength="500"
+                          placeholder="O que você achou, diva?"></textarea>
+
+                <button type="submit" class="botao-gel">avaliar ⭐</button>
+            </form>
+
+            {% for avaliacao in avaliacoes %}
+                <div class="avaliacao">
+                    <span class="estrelas">{{ "★" * avaliacao.nota }}{{ "☆" * (5 - avaliacao.nota) }}</span>
+                    {% if avaliacao.comentario %}<p>{{ avaliacao.comentario }}</p>{% endif %}
+                    <form method="POST" action="{{ url_for('avaliacoes.excluir', id=avaliacao.id) }}">
+                        <button type="submit" class="botao-cromado">excluir 🗑</button>
+                    </form>
+                </div>
+            {% else %}
+                <p class="subtexto">Nenhuma avaliação ainda. Seja a primeira! ♡</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
