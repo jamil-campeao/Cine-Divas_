@@ -40,6 +40,19 @@ Criada pelo `iniciar_bd.py`, já com os 10 filmes iniciais:
    python run.py
    ```
 
+## Como executar com Docker
+```bash
+docker compose up -d --build
+```
+Acesse **http://localhost:5000** (ou o IP do servidor). O container roda o `iniciar_bd.py` sozinho ao subir
+(sem duplicar dados) e serve o site com o gunicorn. O banco fica no volume `dados`, então nada se perde ao
+reiniciar; só `docker compose down -v` apaga tudo.
+
+Para trocar a chave secreta, crie um arquivo `.env` ao lado do `docker-compose.yml`:
+```
+SECRET_KEY=coloque-aqui-algo-longo-e-aleatorio
+```
+
 ## Estrutura (MVC)
 ```
 iniciar_bd.py               # cria as tabelas (CREATE TABLE) e os dados iniciais

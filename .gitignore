@@ -5,3 +5,4 @@ __pycache__/
 .claude/
 CLAUDE.MD
 *.db
+.env

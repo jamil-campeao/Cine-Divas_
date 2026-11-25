@@ -1,0 +1,14 @@
+services:
+  cine-divas:
+    build: .
+    container_name: cine-divas
+    ports:
+      - "5000:5000"
+    environment:
+      SECRET_KEY: ${SECRET_KEY:-troque-esta-chave-secreta}
+    volumes:
+      - dados:/app/dados
+    restart: unless-stopped
+
+volumes:
+  dados:
