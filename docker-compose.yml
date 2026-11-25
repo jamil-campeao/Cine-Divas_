@@ -5,7 +5,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      SECRET_KEY: ${SECRET_KEY:-troque-esta-chave-secreta}
+      SECRET_KEY: ${SECRET_KEY}
     volumes:
       - dados:/app/dados
     restart: unless-stopped
